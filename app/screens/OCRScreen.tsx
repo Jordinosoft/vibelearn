@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { Header } from "../components/Header"; // Import the Header component
 
 export default function OCRScreen() {
   const [image, setImage] = useState<string | null>(null);
@@ -90,12 +91,13 @@ export default function OCRScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => {}} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#fff" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Homework Helper</Text>
-      </View>
+      <Header
+        title="Homework Helper"
+        onBackPress={() => {}}
+        backgroundColor="#000"
+        textColor="#fff"
+        backButtonColor="#fff"
+      />
 
       <View style={styles.cameraContainer}>
         <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
@@ -151,21 +153,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginBottom: 10,
     fontSize: 18,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: "#000",
-  },
-  backButton: {
-    paddingRight: 10,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#fff",
   },
   cameraContainer: {
     flex: 1,

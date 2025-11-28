@@ -1,14 +1,9 @@
-import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import React from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActionButton } from "../components/ActionButton";
+import { LessonCard } from "../components/LessonCard";
+import { StatCard } from "../components/StatCard";
 
 export default function HomeScreen() {
   return (
@@ -27,16 +22,18 @@ export default function HomeScreen() {
 
         {/* Stats Cards */}
         <View style={styles.statsContainer}>
-          <View style={[styles.statCard, styles.mathScoreCard]}>
-            <Ionicons name="stats-chart-outline" size={30} color="#fff" />
-            <Text style={styles.statValue}>85%</Text>
-            <Text style={styles.statLabel}>Math Score</Text>
-          </View>
-          <View style={[styles.statCard, styles.topicsMasteredCard]}>
-            <Ionicons name="checkmark-circle-outline" size={30} color="#fff" />
-            <Text style={styles.statValue}>12</Text>
-            <Text style={styles.statLabel}>Topics Mastered</Text>
-          </View>
+          <StatCard
+            iconName="stats-chart-outline"
+            value="85%"
+            label="Math Score"
+            backgroundColor="#673ab7"
+          />
+          <StatCard
+            iconName="checkmark-circle-outline"
+            value="12"
+            label="Topics Mastered"
+            backgroundColor="#4CAF50"
+          />
         </View>
 
         {/* Start Learning Section */}
@@ -44,20 +41,26 @@ export default function HomeScreen() {
           <Text style={styles.sectionTitle}>Start Learning</Text>
           <View style={styles.learningOptionsContainer}>
             <Link href="/chat" asChild>
-              <TouchableOpacity style={styles.learningOptionCard}>
-                <Ionicons
-                  name="chatbubble-ellipses-outline"
-                  size={40}
-                  color="#673ab7"
-                />
-                <Text style={styles.learningOptionText}>AI Tutor</Text>
-              </TouchableOpacity>
+              <ActionButton
+                title="AI Tutor"
+                onPress={() => {}}
+                iconName="chatbubble-ellipses-outline"
+                iconSize={40}
+                iconColor="#673ab7"
+                style={styles.learningOptionCard}
+                textStyle={styles.learningOptionText}
+              />
             </Link>
             <Link href="/ocr" asChild>
-              <TouchableOpacity style={styles.learningOptionCard}>
-                <Ionicons name="camera-outline" size={40} color="#673ab7" />
-                <Text style={styles.learningOptionText}>Homework Helper</Text>
-              </TouchableOpacity>
+              <ActionButton
+                title="Homework Helper"
+                onPress={() => {}}
+                iconName="camera-outline"
+                iconSize={40}
+                iconColor="#673ab7"
+                style={styles.learningOptionCard}
+                textStyle={styles.learningOptionText}
+              />
             </Link>
           </View>
         </View>
@@ -66,30 +69,20 @@ export default function HomeScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Recommended for You</Text>
           <View style={styles.recommendedContainer}>
-            <TouchableOpacity style={styles.lessonCard}>
-              <View
-                style={[styles.lessonIconContainer, styles.lessonIconOrange]}
-              >
-                <Ionicons name="bulb-outline" size={24} color="#fff" />
-              </View>
-              <View style={styles.lessonInfo}>
-                <Text style={styles.lessonTitle}>Quadratic Equations</Text>
-                <Text style={styles.lessonSubtitle}>
-                  Algebra • 15 min lesson
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.lessonCard}>
-              <View style={[styles.lessonIconContainer, styles.lessonIconBlue]}>
-                <Ionicons name="book-outline" size={24} color="#fff" />
-              </View>
-              <View style={styles.lessonInfo}>
-                <Text style={styles.lessonTitle}>The Water Cycle</Text>
-                <Text style={styles.lessonSubtitle}>
-                  Earth Science • 10 min lesson
-                </Text>
-              </View>
-            </TouchableOpacity>
+            <LessonCard
+              iconName="bulb-outline"
+              iconBackgroundColor="#FF9800"
+              title="Quadratic Equations"
+              subtitle="Algebra • 15 min lesson"
+              onPress={() => {}}
+            />
+            <LessonCard
+              iconName="book-outline"
+              iconBackgroundColor="#2196F3"
+              title="The Water Cycle"
+              subtitle="Earth Science • 10 min lesson"
+              onPress={() => {}}
+            />
           </View>
         </View>
       </ScrollView>
@@ -140,29 +133,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 30,
   },
-  statCard: {
-    width: "48%",
-    borderRadius: 15,
-    padding: 20,
-    justifyContent: "space-between",
-    height: 150,
-  },
-  mathScoreCard: {
-    backgroundColor: "#673ab7", // Primary purple
-  },
-  topicsMasteredCard: {
-    backgroundColor: "#4CAF50", // Green
-  },
-  statValue: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#fff",
-    marginTop: 10,
-  },
-  statLabel: {
-    fontSize: 16,
-    color: "#fff",
-  },
   section: {
     marginBottom: 30,
   },
@@ -179,11 +149,6 @@ const styles = StyleSheet.create({
   learningOptionCard: {
     width: "48%",
     backgroundColor: "#f8f8f8",
-    borderRadius: 15,
-    padding: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    height: 160,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -191,53 +156,10 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   learningOptionText: {
-    fontSize: 16,
-    fontWeight: "bold",
     color: "#333",
-    marginTop: 10,
     textAlign: "center",
   },
   recommendedContainer: {
     // Styles for recommended lessons container if needed
-  },
-  lessonCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f8f8f8",
-    borderRadius: 15,
-    padding: 15,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  lessonIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 15,
-  },
-  lessonIconOrange: {
-    backgroundColor: "#FF9800", // Orange
-  },
-  lessonIconBlue: {
-    backgroundColor: "#2196F3", // Blue
-  },
-  lessonInfo: {
-    flex: 1,
-  },
-  lessonTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  lessonSubtitle: {
-    fontSize: 14,
-    color: "#888",
-    marginTop: 2,
   },
 });

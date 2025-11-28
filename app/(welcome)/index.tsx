@@ -1,14 +1,7 @@
-import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import React from "react";
-import {
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { ActionButton } from "../components/ActionButton"; // Import ActionButton
 
 export default function WelcomeScreen() {
   return (
@@ -24,27 +17,23 @@ export default function WelcomeScreen() {
 
       <View style={styles.buttonContainer}>
         <Link href="/home" asChild>
-          <TouchableOpacity style={[styles.button, styles.studentButton]}>
-            <Ionicons
-              name="person-outline"
-              size={24}
-              color="#fff"
-              style={styles.buttonIcon}
-            />
-            <Text style={styles.buttonText}>I'm a Student</Text>
-          </TouchableOpacity>
-        </Link>
-        <TouchableOpacity style={[styles.button, styles.teacherButton]}>
-          <Ionicons
-            name="book-outline"
-            size={24}
-            color="#673ab7"
-            style={styles.buttonIcon}
+          <ActionButton
+            title="I'm a Student"
+            onPress={() => {}}
+            iconName="person-outline"
+            style={styles.studentButton}
+            textStyle={{ color: "#fff" }}
+            iconColor="#fff"
           />
-          <Text style={[styles.buttonText, styles.teacherButtonText]}>
-            I'm a Teacher
-          </Text>
-        </TouchableOpacity>
+        </Link>
+        <ActionButton
+          title="I'm a Teacher"
+          onPress={() => {}}
+          iconName="book-outline"
+          style={styles.teacherButton}
+          textStyle={styles.teacherButtonText}
+          iconColor="#673ab7"
+        />
       </View>
 
       <Text style={styles.versionText}>v1.0.0 • Offline Capable</Text>
@@ -82,14 +71,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "80%",
   },
-  button: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 15,
-    borderRadius: 30,
-    marginVertical: 10,
-  },
   studentButton: {
     backgroundColor: "#673ab7", // Primary purple
   },
@@ -97,14 +78,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: "#673ab7", // Primary purple
-  },
-  buttonIcon: {
-    marginRight: 10,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
   },
   teacherButtonText: {
     color: "#673ab7",

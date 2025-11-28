@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons"; // Assuming you have expo vector icons installed
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
   FlatList,
@@ -11,10 +11,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { Header } from "../components/Header"; // Import the Header component
 
 export default function ChatScreen() {
   const [query, setQuery] = useState("");
-  const [reply, setReply] = useState("");
   const [messages, setMessages] = useState<
     { id: string; text: string; sender: "user" | "ai" }[]
   >([]);
@@ -57,12 +57,13 @@ export default function ChatScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => {}} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#000" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>AI Tutor</Text>
-      </View>
+      <Header
+        title="AI Tutor"
+        onBackPress={() => {}}
+        backgroundColor="#fff"
+        textColor="#000"
+        backButtonColor="#000"
+      />
 
       <KeyboardAvoidingView
         style={styles.content}
@@ -125,22 +126,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-    backgroundColor: "#fff",
-  },
-  backButton: {
-    paddingRight: 10,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
   },
   content: {
     flex: 1,
