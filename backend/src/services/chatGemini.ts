@@ -1,0 +1,19 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY!);
+
+export async function runChat(query: string) {
+  try {
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+    const res = await model.generateContent(query);
+
+    return {
+      reply: res.response.text(),
+      error: null
+    };
+
+  } catch (err: any) {
+    return { reply: "", error: err.message };
+  }
+}
