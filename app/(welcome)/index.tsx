@@ -26,17 +26,19 @@ export default function WelcomeScreen() {
             iconColor="#fff"
           />
         </Link>
-        <ActionButton
-          title="I'm a Teacher"
-          onPress={() => {}}
-          iconName="book-outline"
-          style={styles.teacherButton}
-          textStyle={styles.teacherButtonText}
-          iconColor="#673ab7"
-        />
+        <Link href="/(teacher)" asChild>
+          <ActionButton
+            title="I'm a Teacher"
+            onPress={() => {}}
+            iconName="book-outline"
+            style={styles.teacherButton}
+            textStyle={styles.teacherButtonText}
+            iconColor="#673ab7"
+          />
+        </Link>
       </View>
 
-      <Text style={styles.versionText}>v1.0.0 • Offline Capable</Text>
+      {/* <Text style={styles.versionText}>v1.0.0 • Offline Capable</Text> */}
     </SafeAreaView>
   );
 }

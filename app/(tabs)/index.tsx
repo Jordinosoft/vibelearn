@@ -45,7 +45,7 @@ export default function HomeScreen() {
                 title="AI Tutor"
                 onPress={() => {}}
                 iconName="chatbubble-ellipses-outline"
-                iconSize={40}
+                iconSize={30} // Reduced icon size
                 iconColor="#673ab7"
                 style={styles.learningOptionCard}
                 textStyle={styles.learningOptionText}
@@ -53,10 +53,10 @@ export default function HomeScreen() {
             </Link>
             <Link href="/ocr" asChild>
               <ActionButton
-                title="Homework Helper"
+                title="Homework\nHelper" // Broken into two lines
                 onPress={() => {}}
                 iconName="camera-outline"
-                iconSize={40}
+                iconSize={30} // Reduced icon size
                 iconColor="#673ab7"
                 style={styles.learningOptionCard}
                 textStyle={styles.learningOptionText}
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   scrollViewContent: {
-    paddingTop: 20,
+    paddingTop: 0, // Set to 0, SafeAreaView will handle top padding
     paddingHorizontal: 16,
     paddingBottom: 40,
   },
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 20,
+    paddingTop: 40, // Adjusted padding to provide safe area from top
   },
   welcomeText: {
     fontSize: 18,
@@ -154,10 +155,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    borderRadius: 15, // Ensure border radius is consistent
+    padding: 15, // Add padding inside the card
+    alignItems: "center", // Center content horizontally
+    justifyContent: "center", // Center content vertically
+    height: 160, // Give it a fixed height to prevent collapsing
   },
   learningOptionText: {
     color: "#333",
     textAlign: "center",
+    marginTop: 10, // Space between icon and text
+    fontWeight: "bold", // Make text bold as per UI
+    fontSize: 16, // Adjust font size as per UI
+    flexShrink: 1, // Allow text to shrink if necessary
   },
   recommendedContainer: {
     // Styles for recommended lessons container if needed

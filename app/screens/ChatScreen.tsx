@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   KeyboardAvoidingView,
   Platform,
@@ -18,6 +19,7 @@ export default function ChatScreen() {
   const [messages, setMessages] = useState<
     { id: string; text: string; sender: "user" | "ai" }[]
   >([]);
+  const [loadingAIResponse, setLoadingAIResponse] = useState(false);
 
   async function sendMessage() {
     if (query.trim() === "") return;
@@ -29,6 +31,7 @@ export default function ChatScreen() {
     };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setQuery("");
+    setLoadingAIResponse(true); // Set loading to true
 
     try {
       const response = await fetch("http://192.168.1.135:5000/chat", {
@@ -40,7 +43,7 @@ export default function ChatScreen() {
       const data = await response.json();
       const aiMessage = {
         id: Date.now().toString(),
-        text: data.reply,
+        text: data.reply || "No response from AI",
         sender: "ai" as "ai",
       };
       setMessages((prevMessages) => [...prevMessages, aiMessage]);
@@ -52,6 +55,8 @@ export default function ChatScreen() {
         sender: "ai" as "ai",
       };
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
+    } finally {
+      setLoadingAIResponse(false); // Set loading to false
     }
   }
 
@@ -101,9 +106,23 @@ export default function ChatScreen() {
           contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 20 }}
         />
 
+        {loadingAIResponse && (
+          <View style={styles.typingIndicatorContainer}>
+            <ActivityIndicator size="small" color="#673ab7" />
+            <Text style={styles.typingText}>AI is typing...</Text>
+          </View>
+        )}
+
         <View style={styles.inputContainer}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Ionicons name="mic-outline" size={24} color="#888" />
+          <TouchableOpacity
+            style={styles.iconButton}
+            disabled={loadingAIResponse}
+          >
+            <Ionicons
+              name="mic-outline"
+              size={24}
+              color={loadingAIResponse ? "#ccc" : "#888"}
+            />
           </TouchableOpacity>
           <TextInput
             value={query}
@@ -112,9 +131,21 @@ export default function ChatScreen() {
             style={styles.input}
             placeholderTextColor="#888"
             multiline
+            editable={!loadingAIResponse}
           />
-          <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
-            <Ionicons name="send" size={24} color="#fff" />
+          <TouchableOpacity
+            style={[
+              styles.sendButton,
+              loadingAIResponse && styles.sendButtonDisabled,
+            ]}
+            onPress={sendMessage}
+            disabled={loadingAIResponse}
+          >
+            {loadingAIResponse ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <Ionicons name="send" size={24} color="#fff" />
+            )}
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -206,5 +237,19 @@ const styles = StyleSheet.create({
     height: 45,
     justifyContent: "center",
     alignItems: "center",
+  },
+  sendButtonDisabled: {
+    backgroundColor: "#a783da", // Lighter purple for disabled state
+  },
+  typingIndicatorContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    marginBottom: 10,
+  },
+  typingText: {
+    marginLeft: 10,
+    color: "#888",
+    fontStyle: "italic",
   },
 });

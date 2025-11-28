@@ -2,7 +2,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import chatRouter from "./routes/chat";
+import lessonRouter from "./routes/lesson";
 import ocrRouter from "./routes/ocr";
+
 dotenv.config();   // <== MUST BE AT THE VERY TOP
 
 
@@ -15,6 +17,7 @@ app.get("/", (_, res) => res.send("VibeLearn Backend Running ✔"));
 
 app.use("/chat", chatRouter);
 app.use("/ocr", ocrRouter);
+app.use("/generate-lesson", lessonRouter);
 
 app.listen(5000, () =>
   console.log("Backend running on http://localhost:5000")
