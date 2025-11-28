@@ -1,8 +1,8 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from "axios";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY!);
-
+//const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY!);
+const genAI = new GoogleGenerativeAI("AIzaSyC-RJsQCHlsMug-ez3F4hto0a7ikeBz3FI")
 export async function processImageOCR(imageUrl: string) {
   try {
     const img = await axios.get(imageUrl, { responseType: "arraybuffer" });

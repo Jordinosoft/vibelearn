@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 import express from "express";
 import chatRouter from "./routes/chat";
 import ocrRouter from "./routes/ocr";
+dotenv.config();   // <== MUST BE AT THE VERY TOP
 
-dotenv.config();
 
 const app = express();
 app.use(cors());
