@@ -16,7 +16,7 @@ export default function WelcomeScreen() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Link href="/home" asChild>
+        <Link href="/(tabs)" asChild>
           <ActionButton
             title="I'm a Student"
             onPress={() => {}}

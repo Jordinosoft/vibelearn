@@ -4,7 +4,7 @@ export default function RootLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       {/* Loads the tabs navigator */}
-      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(welcome)" />
     </Stack>
   );
 }
