@@ -3,6 +3,7 @@ dotenv.config();
 
 import cors from "cors";
 import express from "express";
+import audioRoutes from "./routes/audio";
 import chatRoutes from "./routes/chat";
 import lessonRoutes from "./routes/lesson";
 import ocrRoutes from "./routes/ocr";
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/chat", chatRoutes);
 app.use("/ocr", ocrRoutes);
 app.use("/generate-lesson", lessonRoutes);
+app.use("/audio", audioRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

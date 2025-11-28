@@ -120,6 +120,11 @@ export default function OCRScreen() {
     }
   };
 
+  const handleClearText = () => {
+    setText("");
+    setImage(null);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Header
@@ -163,13 +168,26 @@ export default function OCRScreen() {
         <View style={styles.textResultContainer}>
           <View style={styles.textResultHeader}>
             <Text style={styles.textResultTitle}>Extracted Text:</Text>
-            <TouchableOpacity
-              onPress={handleCopyToClipboard}
-              style={styles.copyButton}
-            >
-              <Ionicons name="copy-outline" size={24} color="#673ab7" />
-              <Text style={styles.copyButtonText}>Copy</Text>
-            </TouchableOpacity>
+            <View style={styles.textResultActions}>
+              <TouchableOpacity
+                onPress={handleCopyToClipboard}
+                style={styles.copyButton}
+              >
+                <Ionicons name="copy-outline" size={24} color="#673ab7" />
+                <Text style={styles.copyButtonText}>Copy</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={handleClearText}
+                style={styles.cancelButton}
+              >
+                <Ionicons
+                  name="close-circle-outline"
+                  size={24}
+                  color="#FF5733"
+                />
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <ScrollView style={styles.textResultScrollView}>
             <Text style={styles.textResult}>{text}</Text>
@@ -276,6 +294,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
+  textResultActions: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   textResultTitle: {
     fontSize: 18,
     fontWeight: "bold",
@@ -287,9 +309,22 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 8,
     backgroundColor: "#e0e0e0",
+    marginRight: 10,
   },
   copyButtonText: {
     color: "#673ab7",
+    marginLeft: 5,
+    fontWeight: "bold",
+  },
+  cancelButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 5,
+    borderRadius: 8,
+    backgroundColor: "#ffe0e0", // Light red for cancel
+  },
+  cancelButtonText: {
+    color: "#FF5733",
     marginLeft: 5,
     fontWeight: "bold",
   },

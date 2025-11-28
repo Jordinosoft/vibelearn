@@ -13,10 +13,10 @@ export default function HomeScreen() {
         <View style={styles.header}>
           <View>
             <Text style={styles.welcomeText}>Welcome back,</Text>
-            <Text style={styles.userName}>Alex</Text>
+            <Text style={styles.userName}>Elame</Text>
           </View>
           <View style={styles.avatar}>
-            <Text style={styles.avatarText}>A</Text>
+            <Text style={styles.avatarText}>E</Text>
           </View>
         </View>
 
@@ -84,7 +84,7 @@ export default function HomeScreen() {
               onPress={() => {}}
             />
           </View>
-    </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

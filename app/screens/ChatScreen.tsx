@@ -1,5 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import {
+  AudioModule,
+  RecordingPresets,
+  setAudioModeAsync,
+  useAudioRecorder,
+  useAudioRecorderState,
+} from "expo-audio";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -20,6 +27,67 @@ export default function ChatScreen() {
     { id: string; text: string; sender: "user" | "ai" }[]
   >([]);
   const [loadingAIResponse, setLoadingAIResponse] = useState(false);
+  const [isTranscribing, setIsTranscribing] = useState(false); // New state for transcription
+
+  const audioRecorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
+  const recorderState = useAudioRecorderState(audioRecorder);
+
+  useEffect(() => {
+    (async () => {
+      const { granted } = await AudioModule.requestRecordingPermissionsAsync();
+      if (!granted) {
+        // Handle permission denial appropriately (e.g., show an alert)
+        console.error("Microphone permission was denied.");
+      }
+      await setAudioModeAsync({
+        allowsRecording: true,
+        playsInSilentMode: true,
+        interruptionModeAndroid: "duckOthers", // Example, adjust as needed
+        interruptionMode: "mixWithOthers", // Example, adjust as needed
+        shouldPlayInBackground: true, // Allow recording in background
+      });
+    })();
+  }, []);
+
+  useEffect(() => {
+    // Check if recording has just stopped and a URI is available from audioRecorder
+    if (!recorderState.isRecording && audioRecorder.uri && !isTranscribing) {
+      uploadAudioForTranscription(audioRecorder.uri);
+    }
+  }, [recorderState.isRecording, audioRecorder.uri, isTranscribing]);
+
+  async function uploadAudioForTranscription(uri: string) {
+    setIsTranscribing(true);
+    setLoadingAIResponse(true); // Indicate overall loading
+
+    const formData = new FormData();
+    formData.append("audio", {
+      uri,
+      type: "audio/m4a", // Adjust mime type based on RecordingPresets.HIGH_QUALITY extension
+      name: `recording-${Date.now()}.m4a`,
+    } as any);
+
+    try {
+      const response = await fetch("http://192.168.1.135:5000/audio", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to transcribe audio.");
+      }
+
+      const data = await response.json();
+      setQuery(data.text); // Set transcribed text to query input
+    } catch (error) {
+      console.error("Error transcribing audio:", error);
+      // Optionally display an error message to the user
+    } finally {
+      setIsTranscribing(false);
+      setLoadingAIResponse(false);
+    }
+  }
 
   async function sendMessage() {
     if (query.trim() === "") return;
@@ -59,6 +127,17 @@ export default function ChatScreen() {
       setLoadingAIResponse(false); // Set loading to false
     }
   }
+
+  const handleMicButtonPress = async () => {
+    if (recorderState.isRecording) {
+      audioRecorder.stop();
+    } else {
+      await audioRecorder.prepareToRecordAsync();
+      audioRecorder.record();
+    }
+  };
+
+  const isInputDisabled = loadingAIResponse || isTranscribing; // Only disable if AI is responding or transcribing
 
   return (
     <SafeAreaView style={styles.container}>
@@ -106,23 +185,34 @@ export default function ChatScreen() {
           contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 20 }}
         />
 
-        {loadingAIResponse && (
+        {(loadingAIResponse || isTranscribing) && (
           <View style={styles.typingIndicatorContainer}>
             <ActivityIndicator size="small" color="#673ab7" />
-            <Text style={styles.typingText}>AI is typing...</Text>
+            <Text style={styles.typingText}>
+              {isTranscribing ? "Transcribing audio..." : "AI is typing..."}
+            </Text>
           </View>
         )}
 
         <View style={styles.inputContainer}>
           <TouchableOpacity
-            style={styles.iconButton}
-            disabled={loadingAIResponse}
+            style={[
+              styles.iconButton,
+              isInputDisabled && styles.iconButtonDisabled,
+              recorderState.isRecording && styles.recordingButtonActive, // New style for active recording
+            ]}
+            onPress={handleMicButtonPress}
+            disabled={isInputDisabled}
           >
-            <Ionicons
-              name="mic-outline"
-              size={24}
-              color={loadingAIResponse ? "#ccc" : "#888"}
-            />
+            {recorderState.isRecording ? (
+              <Ionicons name="stop-circle-outline" size={24} color="red" />
+            ) : (
+              <Ionicons
+                name="mic-outline"
+                size={24}
+                color={isInputDisabled ? "#ccc" : "#888"}
+              />
+            )}
           </TouchableOpacity>
           <TextInput
             value={query}
@@ -131,17 +221,17 @@ export default function ChatScreen() {
             style={styles.input}
             placeholderTextColor="#888"
             multiline
-            editable={!loadingAIResponse}
+            editable={!isInputDisabled && !recorderState.isRecording}
           />
           <TouchableOpacity
             style={[
               styles.sendButton,
-              loadingAIResponse && styles.sendButtonDisabled,
+              isInputDisabled && styles.sendButtonDisabled,
             ]}
             onPress={sendMessage}
-            disabled={loadingAIResponse}
+            disabled={isInputDisabled || recorderState.isRecording}
           >
-            {loadingAIResponse ? (
+            {isInputDisabled && !recorderState.isRecording ? (
               <ActivityIndicator size="small" color="#fff" />
             ) : (
               <Ionicons name="send" size={24} color="#fff" />
@@ -218,6 +308,13 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     padding: 8,
+  },
+  iconButtonDisabled: {
+    opacity: 0.5,
+  },
+  recordingButtonActive: {
+    // Optional: add a visual cue when recording is active but not disabled
+    // For example, a pulse animation or a different background color
   },
   input: {
     flex: 1,

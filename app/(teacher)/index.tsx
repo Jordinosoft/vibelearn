@@ -19,9 +19,9 @@ export default function TeacherHomeScreen() {
         {/* Header */}
         <Header title="Teacher Portal" textColor="#000" />
         <View style={styles.userInfoContainer}>
-          <Text style={styles.userName}>Mr. Anderson</Text>
+          <Text style={styles.userName}>Mr. Nelson</Text>
           <View style={styles.avatar}>
-            <Text style={styles.avatarText}>M</Text>
+            <Text style={styles.avatarText}>N</Text>
           </View>
         </View>
 
