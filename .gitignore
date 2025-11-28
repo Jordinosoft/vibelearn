@@ -33,6 +33,7 @@ yarn-error.*
 # local env files
 .env*.local
 .env
+backend/.env # Ignore .env specifically in the backend directory
 
 # typescript
 *.tsbuildinfo
