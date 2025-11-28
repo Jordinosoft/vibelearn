@@ -1,8 +1,9 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { getSupabaseClient } from "../utils/supabase"; // Change import to getSupabaseClient
+import { getSupabaseClient } from "../utils/supabase";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY!);
-export async function generateLesson(topic: string, grade: string, teacherId?: string) {
+
+export async function generateLesson(topic: string, grade_level: string, teacherId?: string) {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
@@ -10,7 +11,7 @@ export async function generateLesson(topic: string, grade: string, teacherId?: s
 Act as a certified teacher. Create a complete, high-quality lesson plan.
 
 Topic: ${topic}
-Grade Level: ${grade}
+Grade Level: ${grade_level}
 
 Format:
 1. Title
@@ -27,12 +28,12 @@ Format:
     const result = await model.generateContent(prompt);
     const lesson = result.response.text();
 
-    // Save to Supabase
-    const supabase = getSupabaseClient(); // Get the Supabase client here
+    // Save in Supabase
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase.from("lessons").insert([
       {
         topic,
-        grade_level:grade,
+        grade_level,
         content: lesson,
         teacher_id: teacherId || null,
       },
@@ -48,6 +49,7 @@ Format:
       saved: !error,
     };
   } catch (err: any) {
+    console.error("Lesson generation error:", err);
     return { success: false, error: err.message };
   }
 }

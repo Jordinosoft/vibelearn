@@ -36,7 +36,11 @@ export default function LessonGeneratorInputScreen() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ topic, grade: selectedGrade }),
+          body: JSON.stringify({
+            topic,
+            grade_level: selectedGrade,
+            teacherId: "123",
+          }),
         }
       );
 
