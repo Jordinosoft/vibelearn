@@ -11,7 +11,7 @@ export default function WelcomeScreen() {
           source={require("../../assets/images/icon.png")}
           style={styles.logo}
         />
-        <Text style={styles.appName}>VibLearn</Text>
+        <Text style={styles.appName}>VibeLearn</Text>
         <Text style={styles.tagline}>Your Personal AI Tutor & Assistant</Text>
       </View>
 

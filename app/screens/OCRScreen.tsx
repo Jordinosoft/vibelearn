@@ -79,11 +79,26 @@ export default function OCRScreen() {
 
       const res = await fetch("http://192.168.1.135:5000/ocr", {
         method: "POST",
-        body: formData, // ❗ DO NOT SET HEADERS
+        body: formData,
       });
 
-      const data = await res.json();
-      setText(data.text);
+      let data;
+
+      try {
+        data = await res.json();
+      } catch (err) {
+        console.log("❌ Failed to parse JSON:", err);
+        setText("Server returned invalid response.");
+        return;
+      }
+
+      if (!res.ok) {
+        console.log("❌ Backend error:", data);
+        setText("OCR failed: " + (data.error || "Unknown error"));
+        return;
+      }
+
+      setText(data.text || "No text detected.");
     } catch (error) {
       console.log("OCR Upload Error:", error);
       setText("Failed to process image.");

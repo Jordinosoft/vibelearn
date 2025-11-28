@@ -21,3 +21,7 @@ app.use("/generate-lesson", lessonRoutes);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+console.log("Supabase URL:", process.env.SUPABASE_URL);
+console.log("Service Role exists:", !!process.env.SUPABASE_SERVICE_ROLE_KEY);
+console.log("Gemini key exists:", !!process.env.GEMINI_KEY);
