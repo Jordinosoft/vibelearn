@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
 import { processImageOCR } from "../services/ocrGoogle";
-import { supabase } from "../utils/supabase";
+import { getSupabaseClient } from "../utils/supabase";
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -14,7 +14,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
     const filename = `ocr/${Date.now()}.jpg`;
 
-    const { data, error } = await supabase.storage
+    const { data, error } = await getSupabaseClient().storage
       .from("uploads")
       .upload(filename, file.buffer, {
         contentType: "image/jpeg",
@@ -23,7 +23,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
     if (error) return res.status(500).json({ error });
 
-    const publicUrl = supabase.storage
+    const publicUrl = getSupabaseClient().storage
       .from("uploads")
       .getPublicUrl(filename).data.publicUrl;
 

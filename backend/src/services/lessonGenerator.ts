@@ -1,8 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { supabase } from "../utils/supabase"; // Make sure this file exists and exports supabase
+import { getSupabaseClient } from "../utils/supabase"; // Change import to getSupabaseClient
 
-// const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY!);
-const genAI = new GoogleGenerativeAI("AIzaSyC-RJsQCHlsMug-ez3F4hto0a7ikeBz3FI")
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY!);
 export async function generateLesson(topic: string, grade: string, teacherId?: string) {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
@@ -29,10 +28,11 @@ Format:
     const lesson = result.response.text();
 
     // Save to Supabase
+    const supabase = getSupabaseClient(); // Get the Supabase client here
     const { data, error } = await supabase.from("lessons").insert([
       {
         topic,
-        grade,
+        grade_level:grade,
         content: lesson,
         teacher_id: teacherId || null,
       },

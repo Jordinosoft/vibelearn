@@ -1,7 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-//const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY!);
-const genAI = new GoogleGenerativeAI("AIzaSyC-RJsQCHlsMug-ez3F4hto0a7ikeBz3FI")
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY!);
 export async function runChat(query: string) {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });

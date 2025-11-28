@@ -1,13 +1,17 @@
 import { Ionicons } from "@expo/vector-icons";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
+import * as Clipboard from "expo-clipboard"; // Import Clipboard
 import * as ImagePicker from "expo-image-picker";
 import React, { useRef, useState } from "react";
 import {
   ActivityIndicator,
-  Button, // Import Button for permission request
-  SafeAreaView,
+  Button, // Import ToastAndroid
+  Platform, // Import Button for permission request
+  SafeAreaView, // Import Platform
+  ScrollView,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -63,31 +67,43 @@ export default function OCRScreen() {
 
   async function uploadImage(uri: string) {
     setLoading(true);
-    setText(""); // Clear previous text
-
-    const formData = new FormData();
-    formData.append("image", {
-      uri,
-      type: "image/jpeg",
-      name: "photo.jpg",
-    } as any);
+    setText("");
 
     try {
+      const formData = new FormData();
+      formData.append("image", {
+        uri,
+        name: "photo.jpg",
+        type: "image/jpeg",
+      } as any);
+
       const res = await fetch("http://192.168.1.135:5000/ocr", {
         method: "POST",
-        headers: { "Content-Type": "multipart/form-data" },
-        body: formData,
+        body: formData, // ❗ DO NOT SET HEADERS
       });
 
       const data = await res.json();
       setText(data.text);
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.log("OCR Upload Error:", error);
       setText("Failed to process image.");
     } finally {
       setLoading(false);
     }
   }
+
+  const handleCopyToClipboard = async () => {
+    await Clipboard.setStringAsync(text);
+    if (Platform.OS === "android") {
+      ToastAndroid.show("Text copied to clipboard!", ToastAndroid.SHORT);
+    } else if (Platform.OS === "ios") {
+      // For iOS, usually a custom toast component or Alert is used
+      // For simplicity, we'll just log for now or you can use a custom Toast module
+      alert("Text copied to clipboard!");
+    } else {
+      alert("Text copied to clipboard!");
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -130,8 +146,19 @@ export default function OCRScreen() {
 
       {text && (
         <View style={styles.textResultContainer}>
-          <Text style={styles.textResultTitle}>Extracted Text:</Text>
-          <Text style={styles.textResult}>{text}</Text>
+          <View style={styles.textResultHeader}>
+            <Text style={styles.textResultTitle}>Extracted Text:</Text>
+            <TouchableOpacity
+              onPress={handleCopyToClipboard}
+              style={styles.copyButton}
+            >
+              <Ionicons name="copy-outline" size={24} color="#673ab7" />
+              <Text style={styles.copyButtonText}>Copy</Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView style={styles.textResultScrollView}>
+            <Text style={styles.textResult}>{text}</Text>
+          </ScrollView>
         </View>
       )}
     </SafeAreaView>
@@ -225,13 +252,37 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.9)",
     padding: 20,
     maxHeight: "50%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  textResultHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
   },
   textResultTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 10,
+    color: "#333",
+  },
+  copyButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 5,
+    borderRadius: 8,
+    backgroundColor: "#e0e0e0",
+  },
+  copyButtonText: {
+    color: "#673ab7",
+    marginLeft: 5,
+    fontWeight: "bold",
+  },
+  textResultScrollView: {
+    maxHeight: 150,
   },
   textResult: {
     fontSize: 16,
+    color: "#333",
   },
 });

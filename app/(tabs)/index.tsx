@@ -84,7 +84,7 @@ export default function HomeScreen() {
               onPress={() => {}}
             />
           </View>
-        </View>
+    </View>
       </ScrollView>
     </SafeAreaView>
   );

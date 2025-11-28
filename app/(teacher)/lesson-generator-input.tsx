@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View,
 } from "react-native";
 import { ActionButton } from "../components/ActionButton";
 import { GradeSelector } from "../components/GradeSelector";
@@ -32,11 +31,14 @@ export default function LessonGeneratorInputScreen() {
     setError(null);
 
     try {
-      const response = await fetch("http://192.168.1.135:5000/generate-lesson", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic, grade: selectedGrade }),
-      });
+      const response = await fetch(
+        "http://192.168.1.135:5000/generate-lesson",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ topic, grade: selectedGrade }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -90,7 +92,13 @@ export default function LessonGeneratorInputScreen() {
           textStyle={{ color: "#fff", fontSize: 18 }}
           disabled={loading}
         >
-          {loading && <ActivityIndicator size="small" color="#fff" style={styles.loadingIndicator} />}
+          {loading && (
+            <ActivityIndicator
+              size="small"
+              color="#fff"
+              style={styles.loadingIndicator}
+            />
+          )}
         </ActionButton>
       </ScrollView>
     </SafeAreaView>
@@ -140,4 +148,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-

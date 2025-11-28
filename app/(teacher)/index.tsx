@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   scrollViewContent: {
+    paddingTop: 16,
     paddingHorizontal: 16,
     paddingBottom: 40,
   },
@@ -177,4 +178,3 @@ const styles = StyleSheet.create({
     // No specific styles needed here, just for positioning
   },
 });
-
