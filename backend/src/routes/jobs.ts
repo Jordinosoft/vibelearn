@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { supabase } from "../utils/supabase";
+import { getSupabaseClient } from "../utils/supabase";
 
 const router = Router();
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("ocr_jobs")
     .select("*")
     .eq("id", id)

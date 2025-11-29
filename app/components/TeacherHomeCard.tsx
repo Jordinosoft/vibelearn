@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   ViewStyle,
+  TextStyle,
 } from "react-native";
 
 interface TeacherHomeCardProps {
@@ -18,8 +19,8 @@ interface TeacherHomeCardProps {
   iconColor?: string;
   isNew?: boolean;
   style?: ViewStyle;
-  titleStyle?: ViewStyle;
-  subtitleStyle?: ViewStyle;
+  titleStyle?: TextStyle;
+  subtitleStyle?: TextStyle;
 }
 
 export const TeacherHomeCard = ({

@@ -32,7 +32,7 @@ export default function LessonGeneratorInputScreen() {
 
     try {
       const response = await fetch(
-        "http://192.168.1.135:5000/generate-lesson",
+        "https://vibelearn-backend.onrender.com/generate-lesson",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

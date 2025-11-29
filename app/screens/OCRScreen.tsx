@@ -77,7 +77,7 @@ export default function OCRScreen() {
         type: "image/jpeg",
       } as any);
 
-      const res = await fetch("http://192.168.1.135:5000/ocr", {
+      const res = await fetch("https://vibelearn-backend.onrender.com/ocr", {
         method: "POST",
         body: formData,
       });

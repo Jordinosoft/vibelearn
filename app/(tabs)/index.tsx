@@ -1,9 +1,17 @@
 import { Link } from "expo-router";
 import React from "react";
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { ActionButton } from "../components/ActionButton";
 import { LessonCard } from "../components/LessonCard";
 import { StatCard } from "../components/StatCard";
+import { i18n } from "../lib/i18n";
 
 export default function HomeScreen() {
   return (
@@ -12,7 +20,7 @@ export default function HomeScreen() {
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.welcomeText}>Welcome back,</Text>
+            <Text style={styles.welcomeText}>{i18n.t("welcome_back")}</Text>
             <Text style={styles.userName}>Elame</Text>
           </View>
           <View style={styles.avatar}>
@@ -25,49 +33,65 @@ export default function HomeScreen() {
           <StatCard
             iconName="stats-chart-outline"
             value="85%"
-            label="Math Score"
+            label={i18n.t("math_score")}
             backgroundColor="#673ab7"
           />
           <StatCard
             iconName="checkmark-circle-outline"
             value="12"
-            label="Topics Mastered"
+            label={i18n.t("topics_mastered")}
             backgroundColor="#4CAF50"
           />
         </View>
 
         {/* Start Learning Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Start Learning</Text>
-          <View style={styles.learningOptionsContainer}>
-            <Link href="/chat" asChild>
-              <ActionButton
-                title="AI Tutor"
-                onPress={() => {}}
-                iconName="chatbubble-ellipses-outline"
-                iconSize={30} // Reduced icon size
-                iconColor="#673ab7"
-                style={styles.learningOptionCard}
-                textStyle={styles.learningOptionText}
-              />
-            </Link>
-            <Link href="/ocr" asChild>
-              <ActionButton
-                title="Homework\nHelper" // Broken into two lines
-                onPress={() => {}}
-                iconName="camera-outline"
-                iconSize={30} // Reduced icon size
-                iconColor="#673ab7"
-                style={styles.learningOptionCard}
-                textStyle={styles.learningOptionText}
-              />
-            </Link>
-          </View>
+          <Text style={styles.sectionTitle}>{i18n.t("start_learning")}</Text>
+          <FlatList
+            data={[
+              {
+                id: "1",
+                title: i18n.t("ai_tutor_title"),
+                iconName: "chatbubble-ellipses-outline",
+                href: "/chat",
+              },
+              {
+                id: "2",
+                title: i18n.t("homework_helper_title"),
+                iconName: "camera-outline",
+                href: "/ocr",
+              },
+              {
+                id: "3",
+                title: i18n.t("empowerment_guide_title"), // Assuming you'll add this translation key
+                iconName: "bulb-outline",
+                href: "/(tabs)/empowerment",
+              },
+            ]}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+            columnWrapperStyle={styles.learningOptionsContainer}
+            renderItem={({ item }) => (
+              <Link href={item.href as any} asChild>
+                <ActionButton
+                  title={item.title}
+                  onPress={() => {}}
+                  iconName={item.iconName as any}
+                  iconSize={30}
+                  iconColor="#673ab7"
+                  style={styles.learningOptionCard}
+                  textStyle={styles.learningOptionText}
+                />
+              </Link>
+            )}
+          />
         </View>
 
         {/* Recommended for You Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recommended for You</Text>
+          <Text style={styles.sectionTitle}>
+            {i18n.t("recommended_for_you")}
+          </Text>
           <View style={styles.recommendedContainer}>
             <LessonCard
               iconName="bulb-outline"
@@ -144,8 +168,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   learningOptionsContainer: {
-    flexDirection: "row",
     justifyContent: "space-between",
+    marginBottom: 10, // Add some bottom margin for spacing between rows
   },
   learningOptionCard: {
     width: "48%",

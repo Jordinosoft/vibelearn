@@ -16,6 +16,8 @@ interface ActionButtonProps {
   textStyle?: TextStyle;
   iconColor?: string;
   iconSize?: number;
+  children?: React.ReactNode;
+  disabled?: boolean;
 }
 
 export const ActionButton = ({
@@ -26,9 +28,11 @@ export const ActionButton = ({
   textStyle,
   iconColor = "#fff",
   iconSize = 24,
+  children,
+  disabled = false,
 }: ActionButtonProps) => {
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress} disabled={disabled}>
       {iconName && (
         <Ionicons
           name={iconName}
@@ -38,6 +42,7 @@ export const ActionButton = ({
         />
       )}
       <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+      {children}
     </TouchableOpacity>
   );
 };

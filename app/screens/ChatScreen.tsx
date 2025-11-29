@@ -20,6 +20,7 @@ import {
   View,
 } from "react-native";
 import { Header } from "../components/Header"; // Import the Header component
+import { i18n } from "../lib/i18n";
 
 export default function ChatScreen() {
   const [query, setQuery] = useState("");
@@ -37,7 +38,7 @@ export default function ChatScreen() {
       const { granted } = await AudioModule.requestRecordingPermissionsAsync();
       if (!granted) {
         // Handle permission denial appropriately (e.g., show an alert)
-        console.error("Microphone permission was denied.");
+        console.error(i18n.t("camera_permission_denied")); // Using i18n
       }
       await setAudioModeAsync({
         allowsRecording: true,
@@ -68,14 +69,19 @@ export default function ChatScreen() {
     } as any);
 
     try {
-      const response = await fetch("http://192.168.1.135:5000/audio", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://vibelearn-backend.onrender.com/audio",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to transcribe audio.");
+        throw new Error(
+          errorData.message || i18n.t("error_transcribing_audio")
+        ); // Using i18n
       }
 
       const data = await response.json();
@@ -102,16 +108,19 @@ export default function ChatScreen() {
     setLoadingAIResponse(true); // Set loading to true
 
     try {
-      const response = await fetch("http://192.168.1.135:5000/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query }),
-      });
+      const response = await fetch(
+        "https://vibelearn-backend.onrender.com/chat",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query }),
+        }
+      );
 
       const data = await response.json();
       const aiMessage = {
         id: Date.now().toString(),
-        text: data.reply || "No response from AI",
+        text: data.reply || i18n.t("no_response_from_ai"), // Using i18n
         sender: "ai" as "ai",
       };
       setMessages((prevMessages) => [...prevMessages, aiMessage]);
@@ -119,7 +128,7 @@ export default function ChatScreen() {
       console.error("Error sending message:", error);
       const errorMessage = {
         id: Date.now().toString(),
-        text: "Sorry, something went wrong. Please try again.",
+        text: i18n.t("error_sending_message"), // Using i18n
         sender: "ai" as "ai",
       };
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
@@ -131,7 +140,7 @@ export default function ChatScreen() {
   const handleMicButtonPress = async () => {
     if (recorderState.isRecording) {
       audioRecorder.stop();
-    } else {
+    } else if (!isTranscribing && !loadingAIResponse) {
       await audioRecorder.prepareToRecordAsync();
       audioRecorder.record();
     }
@@ -142,7 +151,7 @@ export default function ChatScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Header
-        title="AI Tutor"
+        title={i18n.t("ai_tutor_title")}
         onBackPress={() => {}}
         backgroundColor="#fff"
         textColor="#000"
@@ -175,8 +184,7 @@ export default function ChatScreen() {
             <View style={styles.introContainer}>
               <View style={styles.introBubble}>
                 <Text style={styles.introText}>
-                  Hi! I'm your AI Tutor. Ask me anything or upload a photo of
-                  your homework!
+                  {i18n.t("ai_intro_message")}
                 </Text>
               </View>
             </View>
@@ -189,7 +197,9 @@ export default function ChatScreen() {
           <View style={styles.typingIndicatorContainer}>
             <ActivityIndicator size="small" color="#673ab7" />
             <Text style={styles.typingText}>
-              {isTranscribing ? "Transcribing audio..." : "AI is typing..."}
+              {isTranscribing
+                ? i18n.t("transcribing_audio")
+                : i18n.t("ai_is_typing")}
             </Text>
           </View>
         )}
@@ -199,7 +209,7 @@ export default function ChatScreen() {
             style={[
               styles.iconButton,
               isInputDisabled && styles.iconButtonDisabled,
-              recorderState.isRecording && styles.recordingButtonActive, // New style for active recording
+              recorderState.isRecording && styles.recordingButtonActive,
             ]}
             onPress={handleMicButtonPress}
             disabled={isInputDisabled}
@@ -217,7 +227,7 @@ export default function ChatScreen() {
           <TextInput
             value={query}
             onChangeText={setQuery}
-            placeholder="Ask a question..."
+            placeholder={i18n.t("ask_a_question_placeholder")}
             style={styles.input}
             placeholderTextColor="#888"
             multiline

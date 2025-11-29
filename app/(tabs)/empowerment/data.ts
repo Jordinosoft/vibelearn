@@ -1,0 +1,173 @@
+import { i18n } from "../../lib/i18n";
+import { QuizQuestion } from "./quizzes";
+
+export interface Chapter {
+  id: string;
+  title: string;
+  iconName: string; // Ionicons name
+  color: string;
+  content: string; // The full text content of the chapter
+  objectives: string[];
+  quizzes?: QuizQuestion[];
+}
+
+export const chapters: Chapter[] = [
+  {
+    id: "1",
+    title: i18n.t("chapter1_title"),
+    iconName: "people-outline",
+    color: "#FF5733",
+    content: i18n.t("chapter1_content"),
+    objectives: [
+      i18n.t("chapter1_obj1"),
+      i18n.t("chapter1_obj2"),
+    ],
+    quizzes: [
+      {
+        id: "q1_1",
+        question: i18n.t("chapter1_q1"),
+        options: [
+          i18n.t("chapter1_q1_opt1"),
+          i18n.t("chapter1_q1_opt2"),
+          i18n.t("chapter1_q1_opt3"),
+        ],
+        correctAnswerIndex: 0,
+      },
+      {
+        id: "q1_2",
+        question: i18n.t("chapter1_q2"),
+        options: [
+          i18n.t("chapter1_q2_opt1"),
+          i18n.t("chapter1_q2_opt2"),
+          i18n.t("chapter1_q2_opt3"),
+        ],
+        correctAnswerIndex: 1,
+      },
+    ],
+  },
+  {
+    id: "2",
+    title: i18n.t("chapter2_title"),
+    iconName: "heart-circle-outline",
+    color: "#2196F3",
+    content: i18n.t("chapter2_content"),
+    objectives: [
+      i18n.t("chapter2_obj1"),
+      i18n.t("chapter2_obj2"),
+    ],
+    quizzes: [
+      {
+        id: "q2_1",
+        question: i18n.t("chapter2_q1"),
+        options: [
+          i18n.t("chapter2_q1_opt1"),
+          i18n.t("chapter2_q1_opt2"),
+          i18n.t("chapter2_q1_opt3"),
+        ],
+        correctAnswerIndex: 2,
+      },
+      {
+        id: "q2_2",
+        question: i18n.t("chapter2_q2"),
+        options: [
+          i18n.t("chapter2_q2_opt1"),
+          i18n.t("chapter2_q2_opt2"),
+          i18n.t("chapter2_q2_opt3"),
+        ],
+        correctAnswerIndex: 0,
+      },
+    ],
+  },
+  {
+    id: "3",
+    title: i18n.t("chapter3_title"),
+    iconName: "school-outline",
+    color: "#4CAF50",
+    content: i18n.t("chapter3_content"),
+    objectives: [
+      i18n.t("chapter3_obj1"),
+      i18n.t("chapter3_obj2"),
+    ],
+  },
+  {
+    id: "4",
+    title: i18n.t("chapter4_title"),
+    iconName: "bulb-outline",
+    color: "#FF9800",
+    content: i18n.t("chapter4_content"),
+    objectives: [
+      i18n.t("chapter4_obj1"),
+      i18n.t("chapter4_obj2"),
+    ],
+  },
+  {
+    id: "5",
+    title: i18n.t("chapter5_title"),
+    iconName: "happy-outline",
+    color: "#9C27B0",
+    content: i18n.t("chapter5_content"),
+    objectives: [
+      i18n.t("chapter5_obj1"),
+      i18n.t("chapter5_obj2"),
+      i18n.t("chapter5_obj3"),
+    ],
+  },
+  {
+    id: "6",
+    title: i18n.t("chapter6_title"),
+    iconName: "options-outline",
+    color: "#FFEB3B", // Yellow
+    content: i18n.t("chapter6_content"),
+    objectives: [
+      i18n.t("chapter6_obj1"),
+      i18n.t("chapter6_obj2"),
+    ],
+  },
+  {
+    id: "7",
+    title: i18n.t("chapter7_title"),
+    iconName: "medical-outline",
+    color: "#E91E63", // Pink
+    content: i18n.t("chapter7_content"),
+    objectives: [
+      i18n.t("chapter7_obj1"),
+      i18n.t("chapter7_obj2"),
+    ],
+  },
+  {
+    id: "8",
+    title: i18n.t("chapter8_title"),
+    iconName: "shield-checkmark-outline",
+    color: "#673ab7",
+    content: i18n.t("chapter8_content"),
+    objectives: [
+      i18n.t("chapter8_obj1"),
+      i18n.t("chapter8_obj2"),
+      i18n.t("chapter8_obj3"),
+    ],
+  },
+  {
+    id: "9",
+    title: i18n.t("chapter9_title"),
+    iconName: "people-circle-outline",
+    color: "#3F51B5", // Indigo
+    content: i18n.t("chapter9_content"),
+    objectives: [
+      i18n.t("chapter9_obj1"),
+      i18n.t("chapter9_obj2"),
+      i18n.t("chapter9_obj3"),
+      i18n.t("chapter9_obj4"),
+    ],
+  },
+  {
+    id: "10",
+    title: i18n.t("chapter10_title"),
+    iconName: "cash-outline",
+    color: "#009688", // Teal
+    content: i18n.t("chapter10_content"),
+    objectives: [
+      i18n.t("chapter10_obj1"),
+      i18n.t("chapter10_obj2"),
+    ],
+  },
+];
