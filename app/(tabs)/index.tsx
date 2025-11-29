@@ -62,6 +62,17 @@ export default function HomeScreen() {
                 textStyle={styles.learningOptionText}
               />
             </Link>
+            <Link href="/(empowerment)" asChild>
+              <ActionButton
+                title="Empowerment\nHub" // New line for visual consistency
+                onPress={() => {}}
+                iconName="bulb-outline"
+                iconSize={30}
+                iconColor="#673ab7"
+                style={styles.learningOptionCard}
+                textStyle={styles.learningOptionText}
+              />
+            </Link>
           </View>
         </View>
 
@@ -84,6 +95,22 @@ export default function HomeScreen() {
               onPress={() => {}}
             />
           </View>
+        </View>
+
+        {/* My Account Section */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>My Account</Text>
+          <Link href="/profile" asChild>
+            <ActionButton
+              title="My Profile"
+              onPress={() => {}}
+              iconName="person-circle-outline"
+              iconSize={30}
+              iconColor="#673ab7"
+              style={styles.learningOptionCard}
+              textStyle={styles.learningOptionText}
+            />
+          </Link>
         </View>
       </ScrollView>
     </SafeAreaView>
