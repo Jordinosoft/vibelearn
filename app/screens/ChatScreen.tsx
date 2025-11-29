@@ -149,7 +149,9 @@ export default function ChatScreen() {
   const isInputDisabled = loadingAIResponse || isTranscribing; // Only disable if AI is responding or transcribing
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.fullScreenContainer}>
+      {" "}
+      {/* Use a View to fill the screen */}
       <Header
         title={i18n.t("ai_tutor_title")}
         onBackPress={() => {}}
@@ -157,103 +159,117 @@ export default function ChatScreen() {
         textColor="#000"
         backButtonColor="#000"
       />
-
-      <KeyboardAvoidingView
-        style={styles.content}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
-      >
-        <FlatList
-          data={messages}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View
-              style={[
-                styles.messageBubble,
-                item.sender === "user" ? styles.userMessage : styles.aiMessage,
-              ]}
-            >
-              <Text
-                style={item.sender === "user" ? styles.userText : styles.aiText}
+      <SafeAreaView style={styles.safeArea}>
+        {" "}
+        {/* Wrap content in SafeAreaView */}
+        <KeyboardAvoidingView
+          style={styles.content}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+        >
+          <FlatList
+            data={messages}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View
+                style={[
+                  styles.messageBubble,
+                  item.sender === "user"
+                    ? styles.userMessage
+                    : styles.aiMessage,
+                ]}
               >
-                {item.text}
+                <Text
+                  style={
+                    item.sender === "user" ? styles.userText : styles.aiText
+                  }
+                >
+                  {item.text}
+                </Text>
+              </View>
+            )}
+            ListEmptyComponent={
+              <View style={styles.introContainer}>
+                <View style={styles.introBubble}>
+                  <Text style={styles.introText}>
+                    {i18n.t("ai_intro_message")}
+                  </Text>
+                </View>
+              </View>
+            }
+            style={styles.messageList}
+            contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 20 }}
+          />
+
+          {(loadingAIResponse || isTranscribing) && (
+            <View style={styles.typingIndicatorContainer}>
+              <ActivityIndicator size="small" color="#673ab7" />
+              <Text style={styles.typingText}>
+                {isTranscribing
+                  ? i18n.t("transcribing_audio")
+                  : i18n.t("ai_is_typing")}
               </Text>
             </View>
           )}
-          ListEmptyComponent={
-            <View style={styles.introContainer}>
-              <View style={styles.introBubble}>
-                <Text style={styles.introText}>
-                  {i18n.t("ai_intro_message")}
-                </Text>
-              </View>
-            </View>
-          }
-          style={styles.messageList}
-          contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 20 }}
-        />
 
-        {(loadingAIResponse || isTranscribing) && (
-          <View style={styles.typingIndicatorContainer}>
-            <ActivityIndicator size="small" color="#673ab7" />
-            <Text style={styles.typingText}>
-              {isTranscribing
-                ? i18n.t("transcribing_audio")
-                : i18n.t("ai_is_typing")}
-            </Text>
+          <View style={styles.inputContainer}>
+            <TouchableOpacity
+              style={[
+                styles.iconButton,
+                isInputDisabled && styles.iconButtonDisabled,
+                recorderState.isRecording && styles.recordingButtonActive,
+              ]}
+              onPress={handleMicButtonPress}
+              disabled={isInputDisabled}
+            >
+              {recorderState.isRecording ? (
+                <Ionicons name="stop-circle-outline" size={24} color="red" />
+              ) : (
+                <Ionicons
+                  name="mic-outline"
+                  size={24}
+                  color={isInputDisabled ? "#ccc" : "#888"}
+                />
+              )}
+            </TouchableOpacity>
+            <TextInput
+              value={query}
+              onChangeText={setQuery}
+              placeholder={i18n.t("ask_a_question_placeholder")}
+              style={styles.input}
+              placeholderTextColor="#888"
+              multiline
+              editable={!isInputDisabled && !recorderState.isRecording}
+            />
+            <TouchableOpacity
+              style={[
+                styles.sendButton,
+                isInputDisabled && styles.sendButtonDisabled,
+              ]}
+              onPress={sendMessage}
+              disabled={isInputDisabled || recorderState.isRecording}
+            >
+              {isInputDisabled && !recorderState.isRecording ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                <Ionicons name="send" size={24} color="#fff" />
+              )}
+            </TouchableOpacity>
           </View>
-        )}
-
-        <View style={styles.inputContainer}>
-          <TouchableOpacity
-            style={[
-              styles.iconButton,
-              isInputDisabled && styles.iconButtonDisabled,
-              recorderState.isRecording && styles.recordingButtonActive,
-            ]}
-            onPress={handleMicButtonPress}
-            disabled={isInputDisabled}
-          >
-            {recorderState.isRecording ? (
-              <Ionicons name="stop-circle-outline" size={24} color="red" />
-            ) : (
-              <Ionicons
-                name="mic-outline"
-                size={24}
-                color={isInputDisabled ? "#ccc" : "#888"}
-              />
-            )}
-          </TouchableOpacity>
-          <TextInput
-            value={query}
-            onChangeText={setQuery}
-            placeholder={i18n.t("ask_a_question_placeholder")}
-            style={styles.input}
-            placeholderTextColor="#888"
-            multiline
-            editable={!isInputDisabled && !recorderState.isRecording}
-          />
-          <TouchableOpacity
-            style={[
-              styles.sendButton,
-              isInputDisabled && styles.sendButtonDisabled,
-            ]}
-            onPress={sendMessage}
-            disabled={isInputDisabled || recorderState.isRecording}
-          >
-            {isInputDisabled && !recorderState.isRecording ? (
-              <ActivityIndicator size="small" color="#fff" />
-            ) : (
-              <Ionicons name="send" size={24} color="#fff" />
-            )}
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  fullScreenContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",

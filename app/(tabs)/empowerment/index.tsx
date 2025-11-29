@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Header } from "../../components/Header";
-import { i18n } from "../../utils/i18n";
+import { i18n } from "../../lib/i18n";
 import { chapters } from "./data"; // Import your chapter data
 
 export default function EmpowermentScreen() {
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   chapterTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#333", // Changed to a darker color for better readability
     marginTop: 10,
     textAlign: "center",
   },

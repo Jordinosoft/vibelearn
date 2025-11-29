@@ -27,6 +27,8 @@ export default function ProfileScreen() {
 
   const toggleLanguage = () => {
     const newLocale = currentLocale === "en" ? "fr" : "en";
+    console.log("Current Locale before toggle:", currentLocale); // Log
+    console.log("New Locale after toggle:", newLocale); // Log
     setLanguage(newLocale);
   };
 

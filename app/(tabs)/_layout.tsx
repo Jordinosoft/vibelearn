@@ -59,7 +59,7 @@ export default function TabsLayout() {
         options={{
           title: "Empowerment",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="bulb-outline" size={24} color={color} />
+            <Ionicons name="information-circle-outline" size={24} color={color} />
           ),
         }}
       />
