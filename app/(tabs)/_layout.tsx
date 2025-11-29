@@ -1,7 +1,19 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import React, { useContext } from "react"; // Import useContext
+import { LanguageContext } from "../_layout"; // Import LanguageContext
+import { i18n } from "../lib/i18n"; // Import i18n
 
 export default function TabsLayout() {
+  const languageContext = useContext(LanguageContext);
+
+  if (!languageContext) {
+    throw new Error("LanguageContext not found");
+  }
+
+  // Access language from context (even if not directly used in JSX, it forces re-render)
+  const { language } = languageContext;
+
   return (
     <Tabs
       screenOptions={{
@@ -23,7 +35,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: i18n.t("start_learning"), // Using i18n for title
           tabBarIcon: ({ color }) => (
             <Ionicons name="home-outline" size={24} color={color} />
           ),
@@ -33,7 +45,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="chat"
         options={{
-          title: "Chat",
+          title: i18n.t("ai_tutor_title"), // Using i18n for title
           tabBarIcon: ({ color }) => (
             <Ionicons
               name="chatbubble-ellipses-outline"
@@ -47,7 +59,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="ocr"
         options={{
-          title: "OCR",
+          title: i18n.t("homework_helper_title"), // Using i18n for title
           tabBarIcon: ({ color }) => (
             <Ionicons name="camera-outline" size={24} color={color} />
           ),
@@ -57,9 +69,9 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="empowerment/index"
         options={{
-          title: "Empowerment",
+          title: i18n.t("empowerment_guide_title"), // Using i18n for title
           tabBarIcon: ({ color }) => (
-            <Ionicons name="information-circle-outline" size={24} color={color} />
+            <Ionicons name="bulb-outline" size={24} color={color} /> // Reverted to original icon
           ),
         }}
       />
@@ -67,7 +79,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="profile/index"
         options={{
-          title: "Profile",
+          title: i18n.t("student_profile"), // Using i18n for title
           tabBarIcon: ({ color }) => (
             <Ionicons name="person-circle-outline" size={24} color={color} />
           ),
