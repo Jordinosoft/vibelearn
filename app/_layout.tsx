@@ -1,43 +1,40 @@
 import { Stack } from "expo-router";
-import React, { createContext, useContext, useState } from "react";
-import { i18n, setLanguage as updateI18nLanguage } from "./lib/i18n";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { i18n, setLanguage as updateI18nLanguage, registerLanguageChangeCallback } from "./lib/i18n";
 
 interface LanguageContextType {
   language: string;
   setLanguage: (lang: string) => void;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(
+export const LanguageContext = createContext<LanguageContextType | undefined>(
   undefined
 );
 
-export const useLanguage = () => {
-  const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error("useLanguage must be used within a LanguageProvider");
-  }
-  return context;
-};
+export default function RootLayout() {
+  const [language, setLanguage] = useState(i18n.locale);
 
-function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState(i18n.locale);
+  useEffect(() => {
+    // This ensures the initial language is set correctly if it was determined asynchronously
+    setLanguage(i18n.locale);
 
-  const setLanguage = (lang: string) => {
+    // Register the callback to re-render the app when language changes
+    registerLanguageChangeCallback(setLanguage);
+
+    return () => {
+      // Optionally unregister the callback on component unmount to prevent memory leaks
+      registerLanguageChangeCallback(() => {}); // Set to a no-op function
+    };
+  }, []); // Empty dependency array means this runs once on mount
+
+  const handleSetLanguage = (lang: string) => {
     updateI18nLanguage(lang);
-    setLanguageState(lang);
+    setLanguage(lang);
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage }}>
-      {children}
-    </LanguageContext.Provider>
-  );
-}
-
-export default function RootLayout() {
-  return (
-    <LanguageProvider>
+    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage }}>
       <Stack screenOptions={{ headerShown: false }} />
-    </LanguageProvider>
+    </LanguageContext.Provider>
   );
 }

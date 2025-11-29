@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useContext } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,20 +8,26 @@ import {
   useColorScheme,
   View,
 } from "react-native";
+import { LanguageContext } from "../../_layout"; // Corrected import path
 import { Header } from "../../components/Header";
-import { i18n, setLanguage } from "../../lib/i18n";
+import { i18n } from "../../lib/i18n";
 
 export default function ProfileScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme();
+  const languageContext = useContext(LanguageContext);
+
+  if (!languageContext) {
+    throw new Error("LanguageContext not found");
+  }
+
+  const { setLanguage } = languageContext;
 
   const currentLocale = i18n.locale;
 
   const toggleLanguage = () => {
     const newLocale = currentLocale === "en" ? "fr" : "en";
     setLanguage(newLocale);
-    // You might want to force a re-render or navigate to ensure changes are reflected immediately
-    // For simplicity, we'll just update the locale and expect the components to re-render.
   };
 
   return (
