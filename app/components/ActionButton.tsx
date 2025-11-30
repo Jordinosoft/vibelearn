@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 interface ActionButtonProps {
-  title: string;
+  title: React.ReactNode; // Change title type to React.ReactNode
   onPress: () => void;
   iconName?: keyof typeof Ionicons.glyphMap;
   style?: ViewStyle;
@@ -41,7 +41,12 @@ export const ActionButton = ({
           style={styles.icon}
         />
       )}
-      <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+      {/* Render title as React.ReactNode */}
+      {typeof title === 'string' ? (
+        <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+      ) : (
+        title
+      )}
       {children}
     </TouchableOpacity>
   );
@@ -49,18 +54,18 @@ export const ActionButton = ({
 
 const styles = StyleSheet.create({
   button: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "center", // Vertically center content
+    justifyContent: "center", // Horizontally center content
     paddingVertical: 15,
     borderRadius: 30,
     marginVertical: 10,
   },
   icon: {
-    marginRight: 10,
+    marginBottom: 5, // Space between icon and text
   },
   buttonText: {
     fontSize: 18,
     fontWeight: "bold",
+    textAlign: 'center', // Center text
   },
 });

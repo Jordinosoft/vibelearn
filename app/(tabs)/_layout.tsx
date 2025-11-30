@@ -71,7 +71,7 @@ export default function TabsLayout() {
         options={{
           title: i18n.t("empowerment_guide_title"), // Using i18n for title
           tabBarIcon: ({ color }) => (
-            <Ionicons name="bulb-outline" size={24} color={color} /> // Reverted to original icon
+            <Ionicons name="sparkles-outline" size={24} color={color} /> // Changed icon to sparkles-outline
           ),
         }}
       />

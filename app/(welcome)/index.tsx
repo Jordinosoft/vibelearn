@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import React from "react";
 import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
@@ -18,27 +19,47 @@ export default function WelcomeScreen() {
       <View style={styles.buttonContainer}>
         <Link href="/(tabs)" asChild>
           <ActionButton
-            title="I'm a Student"
+            title={
+              <View style={styles.actionButtonContent}>
+                <Ionicons
+                  name="person-outline"
+                  size={24}
+                  color="#fff"
+                  style={styles.actionButtonIcon}
+                />
+                <Text style={{ color: "#fff" }}>I'm a Student</Text>
+              </View>
+            }
             onPress={() => {}}
-            iconName="person-outline"
+            // iconName="person-outline" // Icon is now part of the title prop
             style={styles.studentButton}
-            textStyle={{ color: "#fff" }}
-            iconColor="#fff"
+            // textStyle={{ color: "#fff" }} // Text style applied directly to Text component
+            // iconColor="#fff" // Icon color applied directly to Ionicons component
           />
         </Link>
         <Link href="/(teacher)" asChild>
           <ActionButton
-            title="I'm a Teacher"
+            title={
+              <View style={styles.actionButtonContent}>
+                <Ionicons
+                  name="book-outline"
+                  size={24}
+                  color="#673ab7"
+                  style={styles.actionButtonIcon}
+                />
+                <Text style={styles.teacherButtonText}>I'm a Teacher</Text>
+              </View>
+            }
             onPress={() => {}}
-            iconName="book-outline"
+            // iconName="book-outline" // Icon is now part of the title prop
             style={styles.teacherButton}
-            textStyle={styles.teacherButtonText}
-            iconColor="#673ab7"
+            // textStyle={styles.teacherButtonText} // Text style applied directly to Text component
+            // iconColor="#673ab7" // Icon color applied directly to Ionicons component
           />
         </Link>
       </View>
 
-      {/* <Text style={styles.versionText}>v1.0.0 • Offline Capable</Text> */}
+      <Text style={styles.versionText}>Offline Capable</Text>
     </SafeAreaView>
   );
 }
@@ -83,6 +104,14 @@ const styles = StyleSheet.create({
   },
   teacherButtonText: {
     color: "#673ab7",
+  },
+  actionButtonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  actionButtonIcon: {
+    marginRight: 10,
   },
   versionText: {
     fontSize: 14,

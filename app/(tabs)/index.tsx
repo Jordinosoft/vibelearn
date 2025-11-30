@@ -72,12 +72,17 @@ export default function HomeScreen() {
               },
               {
                 id: "3",
-                title: i18n.t("empowerment_guide_title"), // Assuming you'll add this translation key
-                iconName: "bulb-outline",
+                title: (
+                  <>
+                    <Text style={styles.learningOptionText}>{i18n.t("empowerment_guide_title").split(" ")[0]}</Text>
+                    <Text style={styles.learningOptionText}>{i18n.t("empowerment_guide_title").split(" ")[1]}</Text>
+                  </>
+                ),
+                iconName: "bulb-outline", // Reverted to original icon for better contrast on cards
                 href: "/(tabs)/empowerment",
               },
             ]}
-            keyExtractor={(item) => item.id + language}
+            keyExtractor={(item, index) => item.id + language + index} // Add index to keyExtractor to prevent errors with React.ReactNode as title
             numColumns={2}
             columnWrapperStyle={styles.learningOptionsContainer}
             renderItem={({ item }) => (
@@ -201,6 +206,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold", // Make text bold as per UI
     fontSize: 16, // Adjust font size as per UI
     flexShrink: 1, // Allow text to shrink if necessary
+    // Remove or reduce marginTop to decrease gap if needed. ActionButton styles already handle spacing.
   },
   recommendedContainer: {
     // Styles for recommended lessons container if needed
