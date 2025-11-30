@@ -236,6 +236,9 @@ const translations = {
     ask_a_question_placeholder: "Ask a question...",
     girls_empowerment_guide_title: "Girl\'s Empowerment Guide",
     girls_empowerment_guide_description: "This guide is primarily built to promote the education of adolescent girls by providing both academic (subjects available) and lifeskills support.",
+    extracted_text_title: "Extracted Text",
+    copy_button: "Copy Text",
+    cancel_button: "Cancel",
   },
   fr: {
     welcome_back: 'Bienvenue,',
@@ -470,6 +473,9 @@ const translations = {
     ask_a_question_placeholder: "Poser une question...",
     girls_empowerment_guide_title: "Guide d\'Autonomisation des Filles",
     girls_empowerment_guide_description: "Ce guide est principalement conçu pour promouvoir l\'éducation des adolescentes en fournissant un soutien académique (matières disponibles) et des compétences de vie.",
+    extracted_text_title: "Texte extrait",
+    copy_button: "Copier le texte",
+    cancel_button: "Annuler",
   },
 };
 
