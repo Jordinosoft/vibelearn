@@ -57,7 +57,7 @@ export default function ChapterDetailScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Header
-        title={i18n.t(chapter.titleKey as any)}
+        title={i18n.t("girls_empowerment_guide_title")}
         onBackPress={() => router.back()}
       />{" "}
       {/* Use i18n.t for title */}

@@ -56,6 +56,7 @@ export default function HomeScreen() {
         {/* Start Learning Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{i18n.t("start_learning")}</Text>
+
           <FlatList
             data={[
               {
@@ -74,8 +75,12 @@ export default function HomeScreen() {
                 id: "3",
                 title: (
                   <>
-                    <Text style={styles.learningOptionText}>{i18n.t("empowerment_guide_title").split(" ")[0]}</Text>
-                    <Text style={styles.learningOptionText}>{i18n.t("empowerment_guide_title").split(" ")[1]}</Text>
+                    <Text style={styles.learningOptionText}>
+                      {i18n.t("girls_empowerment_guide_title").split(" ")[0]}
+                    </Text>
+                    <Text style={styles.learningOptionText}>
+                      {i18n.t("girls_empowerment_guide_title").split(" ")[1]}
+                    </Text>
                   </>
                 ),
                 iconName: "bulb-outline", // Reverted to original icon for better contrast on cards

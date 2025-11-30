@@ -27,9 +27,12 @@ export default function EmpowermentScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Header
-        title={i18n.t("empowerment_guide_title")}
+        title={i18n.t("girls_empowerment_guide_title")}
         onBackPress={() => router.back()}
       />
+      <Text style={styles.guideDescription}>
+        {i18n.t("girls_empowerment_guide_description")}
+      </Text>
       <FlatList
         data={chapters}
         keyExtractor={(item) => item.id + language} // Add language to keyExtractor to force re-render
@@ -112,5 +115,13 @@ const styles = StyleSheet.create({
     fontWeight: "600", // Slightly less bold
     color: "#333", // Darker color for better readability
     flexShrink: 1, // Allow text to wrap
+  },
+  guideDescription: {
+    fontSize: 14,
+    color: "#666",
+    textAlign: "center",
+    marginHorizontal: 16,
+    marginTop: 10,
+    marginBottom: 20,
   },
 });

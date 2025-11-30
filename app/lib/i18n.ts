@@ -11,7 +11,6 @@ const translations = {
 
     recommended_for_you: 'Recommended for you',
 
-   
     welcome_title: 'Welcome to the Empowerment Guide!',
     welcome_text: 'This section is dedicated to helping young girls grow, learn, and become leaders. Explore various topics from gender equality to financial management.',
     chapters_title: 'Chapters',
@@ -233,6 +232,8 @@ const translations = {
     transcribing_audio: "Transcribing audio...",
     ai_is_typing: "AI is typing...",
     ask_a_question_placeholder: "Ask a question...",
+    girls_empowerment_guide_title: "Girl\'s Empowerment Guide",
+    girls_empowerment_guide_description: "This guide is primarily built to promote the education of adolescent girls by providing both academic (subjects available) and lifeskills support.",
   },
   fr: {
     welcome_back: 'Bienvenue,',
@@ -463,6 +464,8 @@ const translations = {
     transcribing_audio: "Transcription audio...",
     ai_is_typing: "L\'IA est en train d\'écrire...",
     ask_a_question_placeholder: "Poser une question...",
+    girls_empowerment_guide_title: "Guide d\'Autonomisation des Filles",
+    girls_empowerment_guide_description: "Ce guide est principalement conçu pour promouvoir l\'éducation des adolescentes en fournissant un soutien académique (matières disponibles) et des compétences de vie.",
   },
 };
 
