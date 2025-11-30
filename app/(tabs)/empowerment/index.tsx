@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
-import React from "react";
+import React, { useContext } from "react"; // Import useContext
 import {
   FlatList,
   SafeAreaView,
@@ -8,12 +8,20 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
+import { LanguageContext } from "../../_layout"; // Import LanguageContext
 import { Header } from "../../components/Header";
 import { i18n } from "../../lib/i18n";
 import { chapters } from "./data"; // Import your chapter data
 
 export default function EmpowermentScreen() {
   const router = useRouter();
+  const languageContext = useContext(LanguageContext);
+
+  if (!languageContext) {
+    throw new Error("LanguageContext not found");
+  }
+
+  const { language } = languageContext; // Consume language from context
 
   return (
     <SafeAreaView style={styles.container}>
@@ -23,7 +31,7 @@ export default function EmpowermentScreen() {
       />
       <FlatList
         data={chapters}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id + language} // Add language to keyExtractor to force re-render
         contentContainerStyle={styles.flatListContent}
         renderItem={({ item }) => (
           <Link
@@ -41,7 +49,10 @@ export default function EmpowermentScreen() {
                 size={30}
                 color="#fff"
               />
-              <Text style={styles.chapterTitle}>{item.title}</Text>
+              <Text style={styles.chapterTitle}>
+                {i18n.t(item.titleKey as any)}
+              </Text>{" "}
+              // Use i18n.t for title
             </TouchableOpacity>
           </Link>
         )}

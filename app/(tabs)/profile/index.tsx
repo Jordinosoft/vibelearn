@@ -21,9 +21,7 @@ export default function ProfileScreen() {
     throw new Error("LanguageContext not found");
   }
 
-  const { setLanguage } = languageContext;
-
-  const currentLocale = i18n.locale;
+  const { language: currentLocale, setLanguage } = languageContext; // Get currentLocale from context
 
   const toggleLanguage = () => {
     const newLocale = currentLocale === "en" ? "fr" : "en";

@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginBottom: 10,
     fontSize: 18,
+    textAlign: "center",
   },
   cameraContainer: {
     flex: 1,

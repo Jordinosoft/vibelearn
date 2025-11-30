@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
+import React, { useContext, useEffect } from "react"; // Import useContext
 import {
   SafeAreaView,
   ScrollView,
@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import Markdown from "react-native-markdown-display";
+import { LanguageContext } from "../../_layout"; // Import LanguageContext
 import { Header } from "../../components/Header";
 import { i18n } from "../../lib/i18n";
 import { chapters } from "./data";
@@ -16,6 +17,17 @@ import { chapters } from "./data";
 export default function ChapterDetailScreen() {
   const router = useRouter();
   const { chapterId } = useLocalSearchParams();
+  const languageContext = useContext(LanguageContext); // Consume LanguageContext
+
+  if (!languageContext) {
+    throw new Error("LanguageContext not found");
+  }
+
+  const { language } = languageContext; // Destructure language to force re-render
+
+  useEffect(() => {
+    console.log("ChapterDetailScreen re-rendered. Current Language:", language);
+  }, [language]); // Re-run when language changes
 
   const chapter = chapters.find((c) => c.id === chapterId);
 
@@ -44,7 +56,11 @@ export default function ChapterDetailScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title={chapter.title} onBackPress={() => router.back()} />
+      <Header
+        title={i18n.t(chapter.titleKey as any)}
+        onBackPress={() => router.back()}
+      />{" "}
+      {/* Use i18n.t for title */}
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {chapter.objectives && chapter.objectives.length > 0 && (
           <View style={styles.objectivesContainer}>
@@ -53,13 +69,15 @@ export default function ChapterDetailScreen() {
             </Text>
             {chapter.objectives.map((objective, index) => (
               <Text key={index} style={styles.objectiveText}>
-                • {objective}
+                • {i18n.t(objective as any)}
               </Text>
             ))}
           </View>
         )}
-        <Markdown style={markdownStyles}>{chapter.content}</Markdown>
-
+        <Markdown style={markdownStyles}>
+          {i18n.t(chapter.content as any)}
+        </Markdown>{" "}
+        {/* Use i18n.t for content */}
         {chapter.quizzes && chapter.quizzes.length > 0 && (
           <TouchableOpacity
             style={styles.startQuizButton}
@@ -138,6 +156,7 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 18,
     color: "red",
+    textAlign: "center",
   },
   objectivesContainer: {
     backgroundColor: "#f0f8ff", // Light blue background for objectives
