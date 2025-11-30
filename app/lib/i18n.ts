@@ -235,6 +235,14 @@ const translations = {
     ask_a_question_placeholder: "Ask a question...",
   },
   fr: {
+    welcome_back: 'Bienvenue,',
+    user_name: 'Elame',
+    avatar_text: 'E',
+    math_score: 'Score en Mathématiques',
+    topics_mastered: 'Sujets Maîtrisés',
+
+    recommended_for_you: 'Recommandé pour vous',
+
     welcome_title: 'Bienvenue dans le Guide d\'Autonomisation !',
     welcome_text: 'Cette section est dédiée à aider les jeunes filles à grandir, apprendre et devenir des leaders. Explorez divers sujets, de l\'égalité des sexes à la gestion financière.',
     chapters_title: 'Chapitres',
