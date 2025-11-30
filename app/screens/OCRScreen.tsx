@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import * as Clipboard from "expo-clipboard"; // Import Clipboard
 import * as ImagePicker from "expo-image-picker";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Button, // Import ToastAndroid
@@ -15,7 +15,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { LanguageContext } from "../_layout";
 import { Header } from "../components/Header"; // Import the Header component
+import { i18n } from "../lib/i18n";
 
 export default function OCRScreen() {
   const [image, setImage] = useState<string | null>(null);
@@ -24,6 +26,14 @@ export default function OCRScreen() {
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
+
+  const languageContext = useContext(LanguageContext);
+
+  if (!languageContext) {
+    throw new Error("LanguageContext not found");
+  }
+
+  const { language } = languageContext;
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -35,9 +45,12 @@ export default function OCRScreen() {
     return (
       <View style={styles.permissionContainer}>
         <Text style={styles.permissionMessage}>
-          We need your permission to show the camera
+          {i18n.t("camera_permission_message")}
         </Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        <Button
+          onPress={requestPermission}
+          title={i18n.t("grant_permission")}
+        />
       </View>
     );
   }
@@ -110,13 +123,13 @@ export default function OCRScreen() {
   const handleCopyToClipboard = async () => {
     await Clipboard.setStringAsync(text);
     if (Platform.OS === "android") {
-      ToastAndroid.show("Text copied to clipboard!", ToastAndroid.SHORT);
+      ToastAndroid.show(i18n.t("text_copied_toast"), ToastAndroid.SHORT);
     } else if (Platform.OS === "ios") {
       // For iOS, usually a custom toast component or Alert is used
       // For simplicity, we'll just log for now or you can use a custom Toast module
-      alert("Text copied to clipboard!");
+      alert(i18n.t("text_copied_toast"));
     } else {
-      alert("Text copied to clipboard!");
+      alert(i18n.t("text_copied_toast"));
     }
   };
 
@@ -128,7 +141,7 @@ export default function OCRScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Header
-        title="Homework Helper"
+        title={i18n.t("homework_helper_title")}
         onBackPress={() => {}}
         backgroundColor="#000"
         textColor="#fff"
@@ -139,7 +152,9 @@ export default function OCRScreen() {
         <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
           <View style={styles.overlay}>
             <View style={styles.alignmentBox}>
-              <Text style={styles.alignmentText}>Align homework here</Text>
+              <Text style={styles.alignmentText}>
+                {i18n.t("align_homework_here")}
+              </Text>
             </View>
           </View>
         </CameraView>
@@ -160,21 +175,25 @@ export default function OCRScreen() {
       {loading && (
         <View style={styles.loadingOverlay}>
           <ActivityIndicator size="large" color="#fff" />
-          <Text style={styles.loadingText}>Processing...</Text>
+          <Text style={styles.loadingText}>{i18n.t("processing")}</Text>
         </View>
       )}
 
       {text && (
         <View style={styles.textResultContainer}>
           <View style={styles.textResultHeader}>
-            <Text style={styles.textResultTitle}>Extracted Text:</Text>
+            <Text style={styles.textResultTitle}>
+              {i18n.t("extracted_text_title")}
+            </Text>
             <View style={styles.textResultActions}>
               <TouchableOpacity
                 onPress={handleCopyToClipboard}
                 style={styles.copyButton}
               >
                 <Ionicons name="copy-outline" size={24} color="#673ab7" />
-                <Text style={styles.copyButtonText}>Copy</Text>
+                <Text style={styles.copyButtonText}>
+                  {i18n.t("copy_button")}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={handleClearText}
@@ -185,7 +204,9 @@ export default function OCRScreen() {
                   size={24}
                   color="#FF5733"
                 />
-                <Text style={styles.cancelButtonText}>Cancel</Text>
+                <Text style={styles.cancelButtonText}>
+                  {i18n.t("cancel_button")}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

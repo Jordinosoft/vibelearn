@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { LanguageContext } from "../../_layout";
 import { Header } from "../../components/Header";
 import { i18n } from "../../lib/i18n";
 import { chapters } from "./data";
@@ -24,6 +25,14 @@ const shuffleArray = (array: any[]) => {
 export default function QuizScreen() {
   const router = useRouter();
   const { chapterId } = useLocalSearchParams();
+
+  const languageContext = useContext(LanguageContext);
+
+  if (!languageContext) {
+    throw new Error("LanguageContext not found");
+  }
+
+  const { language } = languageContext; // Consume language from context
 
   const chapter = chapters.find((c) => c.id === chapterId);
   const [currentQuestion, setCurrentQuestion] = useState<QuizQuestion | null>(
@@ -100,7 +109,7 @@ export default function QuizScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Header
-        title={`${chapter.title} ${i18n.t("quiz_title")}`}
+        title={`${i18n.t(chapter.titleKey as any)} ${i18n.t("quiz_title")}`}
         onBackPress={() => router.back()}
       />
       <ScrollView contentContainerStyle={styles.scrollViewContent}>

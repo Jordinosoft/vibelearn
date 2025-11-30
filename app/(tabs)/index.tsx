@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import React from "react";
+import React, { useContext } from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -8,12 +8,21 @@ import {
   Text,
   View,
 } from "react-native";
+import { LanguageContext } from "../_layout";
 import { ActionButton } from "../components/ActionButton";
 import { LessonCard } from "../components/LessonCard";
 import { StatCard } from "../components/StatCard";
 import { i18n } from "../lib/i18n";
 
 export default function HomeScreen() {
+  const languageContext = useContext(LanguageContext);
+
+  if (!languageContext) {
+    throw new Error("LanguageContext not found");
+  }
+
+  const { language } = languageContext;
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -68,7 +77,7 @@ export default function HomeScreen() {
                 href: "/(tabs)/empowerment",
               },
             ]}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id + language}
             numColumns={2}
             columnWrapperStyle={styles.learningOptionsContainer}
             renderItem={({ item }) => (
@@ -108,7 +117,7 @@ export default function HomeScreen() {
               onPress={() => {}}
             />
           </View>
-    </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

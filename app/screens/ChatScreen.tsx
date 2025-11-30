@@ -6,7 +6,7 @@ import {
   useAudioRecorder,
   useAudioRecorderState,
 } from "expo-audio";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -19,6 +19,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { LanguageContext } from "../_layout";
 import { Header } from "../components/Header"; // Import the Header component
 import { i18n } from "../lib/i18n";
 
@@ -32,6 +33,14 @@ export default function ChatScreen() {
 
   const audioRecorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
   const recorderState = useAudioRecorderState(audioRecorder);
+
+  const languageContext = useContext(LanguageContext);
+
+  if (!languageContext) {
+    throw new Error("LanguageContext not found");
+  }
+
+  const { language } = languageContext;
 
   useEffect(() => {
     (async () => {

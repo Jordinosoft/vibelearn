@@ -69,13 +69,13 @@ export default function ChapterDetailScreen() {
             </Text>
             {chapter.objectives.map((objective, index) => (
               <Text key={index} style={styles.objectiveText}>
-                • {i18n.t(objective as any)}
+                • {i18n.t(chapter.objectiveKeys[index] as any)}
               </Text>
             ))}
           </View>
         )}
         <Markdown style={markdownStyles}>
-          {i18n.t(chapter.content as any)}
+          {i18n.t(chapter.contentKey as any)}
         </Markdown>{" "}
         {/* Use i18n.t for content */}
         {chapter.quizzes && chapter.quizzes.length > 0 && (

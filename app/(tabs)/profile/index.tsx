@@ -48,7 +48,9 @@ export default function ProfileScreen() {
             style={styles.languageButton}
           >
             <Text style={styles.languageButtonText}>
-              {currentLocale === "en" ? "English" : "Français"}
+              {i18n.t(
+                currentLocale === "en" ? "language_english" : "language_french"
+              )}
             </Text>
           </TouchableOpacity>
         </View>
