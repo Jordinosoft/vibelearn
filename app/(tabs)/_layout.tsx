@@ -1,10 +1,11 @@
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from "expo-router";
 import React, { useContext } from "react"; // Import useContext
 import { LanguageContext } from "../_layout"; // Import LanguageContext
 import { i18n } from "../lib/i18n"; // Import i18n
 
 export default function TabsLayout() {
+  
   const languageContext = useContext(LanguageContext);
 
   if (!languageContext) {
@@ -71,7 +72,7 @@ export default function TabsLayout() {
         options={{
           title: i18n.t("empowerment_guide_title"), // Using i18n for title
           tabBarIcon: ({ color }) => (
-            <Ionicons name="sparkles-outline" size={24} color={color} /> // Changed icon to sparkles-outline
+            <Ionicons name="bulb-outline" size={24} color={color} /> // Changed icon to sparkles-outline
           ),
         }}
       />
