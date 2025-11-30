@@ -333,4 +333,24 @@ export const chapters: Chapter[] = [
       },
     ],
   },
+  {
+    id: "girls-in-stem",
+    title: i18n.t("girls_in_stem_title"),
+    titleKey: "girls_in_stem_title",
+    iconName: "flask-outline",
+    color: "#1E90FF", // Dodger Blue
+    content: i18n.t("girls_in_stem_content"),
+    contentKey: "girls_in_stem_content",
+    objectives: [
+      i18n.t("girls_in_stem_obj1"),
+      i18n.t("girls_in_stem_obj2"),
+      i18n.t("girls_in_stem_obj3"),
+    ],
+    objectiveKeys: [
+      "girls_in_stem_obj1",
+      "girls_in_stem_obj2",
+      "girls_in_stem_obj3",
+    ],
+    quizzes: [],
+  },
 ];

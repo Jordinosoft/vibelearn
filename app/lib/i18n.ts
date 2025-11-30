@@ -166,11 +166,13 @@ const translations = {
     chapter10_q1: "What is female entrepreneurship?",
     chapter10_q1_opt1: "The creation and management of businesses by women.",
     chapter10_q1_opt2: "The ability to manage household finances.",
-    chapter10_q1_opt3: "The ability to find a job easily.",
-    chapter10_q2: "What is a crucial step in becoming an entrepreneur?",
-    chapter10_q2_opt1: "Avoiding financial planning.",
-    chapter10_q2_opt2: "Developing a business plan.",
-    chapter10_q2_opt3: "Ignoring community needs.",
+    chapter10_q1_opt3: "Se concentrer uniquement sur les profits sans égard pour les clients.",
+
+    girls_in_stem_title: "Girls in STEM",
+    girls_in_stem_content: "This chapter is dedicated to empowering girls in Science, Technology, Engineering, and Mathematics (STEM). Explore exciting opportunities, overcome challenges, and discover inspiring role models.",
+    girls_in_stem_obj1: "Understand the importance and impact of STEM fields.",
+    girls_in_stem_obj2: "Identify common stereotypes and how to challenge them.",
+    girls_in_stem_obj3: "Discover diverse career paths and resources in STEM.",
 
     // Generic
     back: "Back",
@@ -398,11 +400,13 @@ const translations = {
     chapter10_q1: "Qu\'est-ce que l\'entrepreneuriat féminin ?",
     chapter10_q1_opt1: "La création et la gestion d\'entreprises par des femmes.",
     chapter10_q1_opt2: "La capacité à gérer les finances du ménage.",
-    chapter10_q1_opt3: "La capacité à trouver un emploi facilement.",
-    chapter10_q2: "Quelle est une étape cruciale pour devenir entrepreneure ?",
-    chapter10_q2_opt1: "Éviter la planification financière.",
-    chapter10_q2_opt2: "Élaborer un plan d\'affaires.",
-    chapter10_q2_opt3: "Ignorer les besoins de la communauté.",
+    chapter10_q1_opt3: "Se concentrer uniquement sur les profits sans égard pour les clients.",
+
+    girls_in_stem_title: "Les Filles dans les STEM",
+    girls_in_stem_content: "Ce chapitre est dédié à l'autonomisation des filles dans les domaines de la Science, la Technologie, l'Ingénierie et les Mathématiques (STEM). Explorez des opportunités passionnantes, surmontez les défis et découvrez des modèles inspirants.",
+    girls_in_stem_obj1: "Comprendre l'importance et l'impact des domaines STEM.",
+    girls_in_stem_obj2: "Identifier les stéréotypes courants et comment les contester.",
+    girls_in_stem_obj3: "Découvrir divers parcours de carrière et ressources dans les STEM.",
 
     // Generic
     back: "Retour",
